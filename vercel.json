@@ -5,11 +5,15 @@
       "use": "@vercel/python"
     },
     {
-      "src": "package.json",
-      "use": "@vercel/static-build"
+      "src": "src/**/*",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
     }
   ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "api/" }
+    { "src": "/api/(.*)", "dest": "api/app.py" },
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
