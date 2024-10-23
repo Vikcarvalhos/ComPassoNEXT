@@ -1,5 +1,0 @@
-Flask
-Flask_Cors
-uuid
-Folium
-branca

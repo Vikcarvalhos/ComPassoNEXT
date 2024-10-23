@@ -19,10 +19,10 @@ function Admin() {
   const [auxPoint, setAuxPoint] = useState({ lat: '', lon: '' });  // Novo ponto auxiliar
 
   useEffect(() => {
-    setMapURL(`http://localhost:5000/map`);
+    setMapURL(`https://compasso-eight.vercel.app/api/map`);
 
     // Carregar os pontos do servidor
-    fetch('http://localhost:5000/get_points')
+    fetch('https://compasso-eight.vercel.app/api/get_points')
       .then((response) => response.json())
       .then((data) => {
         setPoints(data.features || []);
@@ -41,7 +41,7 @@ function Admin() {
         auxPoints: auxPoints  // Adicionar pontos auxiliares
       };
 
-      fetch('http://localhost:5000/draw_line', {
+      fetch('https://compasso-eight.vercel.app/api/draw_line', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ function Admin() {
         .then((res) => res.json())
         .then((response) => {
           alert(response.status); // Exibir mensagem de sucesso ou erro
-          setMapURL(`http://localhost:5000/map?timestamp=${new Date().getTime()}`); // Atualizar o mapa para refletir a linha
+          setMapURL(`https://compasso-eight.vercel.app/api/map?timestamp=${new Date().getTime()}`); // Atualizar o mapa para refletir a linha
           setAuxPoints([]);  // Limpar os pontos auxiliares após traçar a rota
         });
     } else {
@@ -84,7 +84,7 @@ function Admin() {
       lon: parseFloat(newPoint.lon),  // Converter lon para float
     };
   
-    fetch('http://localhost:5000/add_point', {
+    fetch('https://compasso-eight.vercel.app/api/add_point', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -95,7 +95,7 @@ function Admin() {
       .then((response) => {
         alert(response.status); // Mensagem de sucesso ou erro
         setShowModal(false); // Fechar o modal
-        setMapURL(`http://localhost:5000/map?timestamp=${new Date().getTime()}`); // Atualizar o mapa com o novo ponto
+        setMapURL(`https://compasso-eight.vercel.app/api/map?timestamp=${new Date().getTime()}`); // Atualizar o mapa com o novo ponto
       })
       .catch((error) => console.error('Erro ao adicionar ponto:', error));
   };
