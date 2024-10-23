@@ -1,0 +1,75 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Linha com Auxiliares",
+                "description": "Linha entre 1001 e 1 com auxiliares",
+                "id": "1-1001",
+                "type": "line"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        -46.7341,
+                        -23.5395
+                    ],
+                    [
+                        -46.7344,
+                        -23.5392
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Linha com Auxiliares",
+                "description": "Linha entre 1001 e 2 com auxiliares",
+                "id": "2-1001",
+                "type": "line"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        -46.7347,
+                        -23.5395
+                    ],
+                    [
+                        -46.7345,
+                        -23.5393
+                    ],
+                    [
+                        -46.7344,
+                        -23.5392
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Linha com Auxiliares",
+                "description": "Linha entre 1002 e 2 com auxiliares",
+                "id": "2-1002",
+                "type": "line"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        -46.7347,
+                        -23.5395
+                    ],
+                    [
+                        -46.7344,
+                        -23.5398
+                    ]
+                ]
+            }
+        }
+    ]
+}

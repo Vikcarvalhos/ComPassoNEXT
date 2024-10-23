@@ -1,0 +1,37 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Interesse",
+                "description": "Teste",
+                "id": "1001",
+                "type": "interest"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -46.7344,
+                    -23.5392
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Interesse 2",
+                "description": "Teste",
+                "id": "1002",
+                "type": "interest"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -46.7344,
+                    -23.5398
+                ]
+            }
+        }
+    ]
+}

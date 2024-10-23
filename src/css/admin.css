@@ -1,0 +1,12 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.admin-panel {
+    position: relative;
+    background-color: #f8f9fa;
+    width: 100%;
+    z-index: 1;
+}

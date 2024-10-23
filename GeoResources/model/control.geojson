@@ -1,0 +1,37 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Controle",
+                "description": "Teste",
+                "id": "1",
+                "type": "control"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -46.7341,
+                    -23.5395
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Controle 2",
+                "description": "Teste",
+                "id": "2",
+                "type": "control"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -46.7347,
+                    -23.5395
+                ]
+            }
+        }
+    ]
+}
