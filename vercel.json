@@ -5,7 +5,7 @@
       "use": "@vercel/python"
     },
     {
-      "src": "src/**/*",
+      "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
         "distDir": "dist"
