@@ -1,7 +1,7 @@
 import json
 import os
 
-geo_resources_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'GeoResources', 'path'))
+geo_resources_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'GeoResources', 'path'))
 line_geojson_file = os.path.join(geo_resources_dir, 'line.geojson')
 
 def get_coordinates_by_id(point_id, geojson_file):
