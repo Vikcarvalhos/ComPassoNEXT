@@ -95,7 +95,7 @@ function Admin() {
       .then((response) => {
         alert(response.status); // Mensagem de sucesso ou erro
         setShowModal(false); // Fechar o modal
-        setMapURL(`https://compasso-6f13bfde1903.herokuapp.com/map?timestamp=${new Date().getTime()}`); // Atualizar o mapa com o novo ponto
+        setMapURL(`https://compasso-eight.vercel.app/api/map?timestamp=${new Date().getTime()}`); // Atualizar o mapa com o novo ponto
       })
       .catch((error) => console.error('Erro ao adicionar ponto:', error));
   };

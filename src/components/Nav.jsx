@@ -1,4 +1,5 @@
 import React from 'react';
+import { Logo } from '../../public/logo.png';
 import '../css/nav.css';
 
 function Nav() {
