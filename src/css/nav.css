@@ -5,8 +5,8 @@
     justify-content: center;
     align-items: center;
     background-color: #007bff; /* Ajuste a cor conforme necessário */
-    padding: 10px 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: 7vh;
     width: 100%;
     z-index: 3;
 }
@@ -17,6 +17,6 @@
 }
 
 .logo-image {
-    max-height: 50px; /* Ajuste o tamanho da imagem conforme necessário */
+    max-height: 5vh; /* Ajuste o tamanho da imagem conforme necessário */
     width: auto;
 }
