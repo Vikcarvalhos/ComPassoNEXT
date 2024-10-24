@@ -32,6 +32,23 @@ function Home() {
     }
   }, [location.search]); // O useEffect executa quando os parâmetros da URL mudam
 
+  useEffect(() => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          console.log("Localização obtida:", position);
+          // Atualize o mapa com a localização do usuário, por exemplo.
+        },
+        (error) => {
+          console.warn("Erro ao obter localização:", error.message);
+          // Aqui, você evita o alerta padrão e pode tratar o erro da forma que desejar.
+        }
+      );
+    } else {
+      console.warn("Geolocalização não está disponível no navegador.");
+    }
+  }, []);  
+
   // Função para buscar a rota específica no back-end
   const handleSearchRoute = (controlIdParam, interestIdParam) => {
     const url = `https://compasso-6f13bfde1903.herokuapp.com/get_route_map?control_id=${controlIdParam}&interest_id=${interestIdParam}`;
