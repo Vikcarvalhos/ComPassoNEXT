@@ -12,13 +12,13 @@ function Home() {
   
   useEffect(() => {
     // Carrega a lista de IDs de interesse do backend ao montar o componente
-    fetch('https://compasso-eight.vercel.app/api/get_interest_ids')
+    fetch('https://compasso-6f13bfde1903.herokuapp.com/get_interest_ids')
       .then((response) => response.json())
       .then((data) => setInterestIds(data))
       .catch((error) => console.error('Erro ao carregar IDs de interesse:', error));
 
     // Define o URL inicial do mapa sem parâmetros
-    setMapURL(`https://compasso-eight.vercel.app/api/map`);
+    setMapURL(`https://compasso-6f13bfde1903.herokuapp.com/map`);
 
     // Captura os parâmetros da URL (ex: ?control_id=1&interest_id=2)
     const params = new URLSearchParams(location.search);
@@ -34,7 +34,7 @@ function Home() {
 
   // Função para buscar a rota específica no back-end
   const handleSearchRoute = (controlIdParam, interestIdParam) => {
-    const url = `https://compasso-eight.vercel.app/api/get_route_map?control_id=${controlIdParam}&interest_id=${interestIdParam}`;
+    const url = `https://compasso-6f13bfde1903.herokuapp.com/get_route_map?control_id=${controlIdParam}&interest_id=${interestIdParam}`;
     
     fetch(url, {
       method: 'GET',
@@ -51,7 +51,7 @@ function Home() {
 
   // Função para carregar detalhes do ponto de interesse selecionado
   const loadInterestDetails = (interestId) => {
-    fetch(`https://compasso-eight.vercel.app/api/get_interest_details?id=${interestId}`)
+    fetch(`https://compasso-6f13bfde1903.herokuapp.com/get_interest_details?id=${interestId}`)
       .then((response) => response.json())
       .then((data) => setCurrentInterest(data))
       .catch((error) => console.error('Erro ao carregar detalhes do interesse:', error));
