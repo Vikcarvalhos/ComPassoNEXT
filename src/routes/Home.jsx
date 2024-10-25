@@ -9,13 +9,54 @@ function Home() {
   const [showModal, setShowModal] = useState(false); // Controle de visibilidade do modal
   const location = useLocation();
   const navigate = useNavigate();
-  
+  const cacheExpirationHours = 24; // Tempo de cache em horas
+
   useEffect(() => {
-    // Carrega a lista de IDs de interesse do backend ao montar o componente
-    fetch('https://compasso-6f13bfde1903.herokuapp.com/get_interest_ids')
-      .then((response) => response.json())
-      .then((data) => setInterestIds(data))
-      .catch((error) => console.error('Erro ao carregar IDs de interesse:', error));
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          console.log("Localização obtida:", position);
+          // Atualize o mapa com a localização do usuário, por exemplo.
+        },
+        (error) => {
+          if (error.code === error.PERMISSION_DENIED) {
+            console.warn("O usuário negou a permissão de geolocalização.");
+          } else {
+            console.warn("Erro ao obter localização:", error.message);
+          }
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0
+        }
+      );
+    } else {
+      console.warn("Geolocalização não está disponível no navegador.");
+    }
+  }, []);  
+
+  useEffect(() => {
+    // Tentar obter a lista de IDs de interesse do localStorage
+    const storedInterestIds = localStorage.getItem('interestIds');
+    const storedTimestamp = localStorage.getItem('interestIdsTimestamp');
+
+    const isCacheValid =
+      storedTimestamp &&
+      Date.now() - storedTimestamp < cacheExpirationHours * 60 * 60 * 1000;
+
+    if (storedInterestIds && isCacheValid) {
+      setInterestIds(JSON.parse(storedInterestIds));
+    } else {
+      fetch('https://compasso-6f13bfde1903.herokuapp.com/get_interest_ids')
+        .then((response) => response.json())
+        .then((data) => {
+          setInterestIds(data);
+          localStorage.setItem('interestIds', JSON.stringify(data));
+          localStorage.setItem('interestIdsTimestamp', Date.now());
+        })
+        .catch((error) => console.error('Erro ao carregar IDs de interesse:', error));
+    }
 
     // Define o URL inicial do mapa sem parâmetros
     setMapURL(`https://compasso-6f13bfde1903.herokuapp.com/map`);
@@ -33,53 +74,64 @@ function Home() {
   }, [location.search]); // O useEffect executa quando os parâmetros da URL mudam
 
   useEffect(() => {
-    if ("geolocation" in navigator) {
+    if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          console.log("Localização obtida:", position);
-          // Atualize o mapa com a localização do usuário, por exemplo.
+          console.log('Localização obtida:', position);
         },
         (error) => {
-          console.warn("Erro ao obter localização:", error.message);
-          // Aqui, você evita o alerta padrão e pode tratar o erro da forma que desejar.
+          console.warn('Erro ao obter localização:', error.message);
         }
       );
     } else {
-      console.warn("Geolocalização não está disponível no navegador.");
+      console.warn('Geolocalização não está disponível no navegador.');
     }
-  }, []);  
+  }, []);
 
   // Função para buscar a rota específica no back-end
   const handleSearchRoute = (controlIdParam, interestIdParam) => {
-    const url = `https://compasso-6f13bfde1903.herokuapp.com/get_route_map?control_id=${controlIdParam}&interest_id=${interestIdParam}`;
-    
-    fetch(url, {
-      method: 'GET',
-    })
-      .then((response) => response.text())
-      .then((mapHTML) => {
-        const mapFrame = document.getElementById('mapFrame');
-        mapFrame.srcdoc = mapHTML; // Atualiza o iframe com o mapa e a rota sem recarregar a página
-      })
-      .catch((error) => {
-        console.error('Erro ao buscar rota:', error);
-      });
+    const cacheKey = `route_${controlIdParam}_${interestIdParam}`;
+    const cachedRoute = localStorage.getItem(cacheKey);
+
+    if (cachedRoute) {
+      const mapFrame = document.getElementById('mapFrame');
+      mapFrame.srcdoc = cachedRoute;
+    } else {
+      const url = `https://compasso-6f13bfde1903.herokuapp.com/get_route_map?control_id=${controlIdParam}&interest_id=${interestIdParam}`;
+      fetch(url, { method: 'GET' })
+        .then((response) => response.text())
+        .then((mapHTML) => {
+          const mapFrame = document.getElementById('mapFrame');
+          mapFrame.srcdoc = mapHTML;
+          localStorage.setItem(cacheKey, mapHTML); // Armazenar o HTML da rota no cache
+        })
+        .catch((error) => console.error('Erro ao buscar rota:', error));
+    }
   };
 
   // Função para carregar detalhes do ponto de interesse selecionado
   const loadInterestDetails = (interestId) => {
-    fetch(`https://compasso-6f13bfde1903.herokuapp.com/get_interest_details?id=${interestId}`)
-      .then((response) => response.json())
-      .then((data) => setCurrentInterest(data))
-      .catch((error) => console.error('Erro ao carregar detalhes do interesse:', error));
+    const cachedInterest = localStorage.getItem(`interest_${interestId}`);
+
+    if (cachedInterest) {
+      setCurrentInterest(JSON.parse(cachedInterest));
+    } else {
+      fetch(`https://compasso-6f13bfde1903.herokuapp.com/get_interest_details?id=${interestId}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setCurrentInterest(data);
+          localStorage.setItem(`interest_${interestId}`, JSON.stringify(data)); // Cachear detalhes do interesse
+        })
+        .catch((error) => console.error('Erro ao carregar detalhes do interesse:', error));
+    }
   };
 
   // Função para incrementar ou decrementar o interest_id de forma cíclica
   const handleChangeInterestId = (direction) => {
-    if (interestIds.length === 0) return; // Se não carregou ainda, não faz nada
+    if (interestIds.length === 0) return;
 
     const params = new URLSearchParams(location.search);
-    const controlId = params.get('control_id') || '1'; // Valor padrão
+    const controlId = params.get('control_id') || '1';
     const currentIndex = interestIds.indexOf(params.get('interest_id'));
 
     let newIndex;
@@ -90,8 +142,6 @@ function Home() {
     }
 
     const newInterestId = interestIds[newIndex];
-
-    // Atualiza a URL com o novo interest_id
     navigate(`/?control_id=${controlId}&interest_id=${newInterestId}`);
   };
 
@@ -107,7 +157,6 @@ function Home() {
 
   return (
     <div>
-      {/* Modal */}
       {showModal && currentInterest && (
         <div className="modal">
           <div className="modal-content">
@@ -117,11 +166,7 @@ function Home() {
           </div>
         </div>
       )}
-      <iframe
-        id="mapFrame"
-        src={mapURL}
-        title="Mapa com AntPath"
-      ></iframe>
+      <iframe id="mapFrame" src={mapURL} title="Mapa com AntPath"></iframe>
 
       <div className="buttons-container">
         <div>
