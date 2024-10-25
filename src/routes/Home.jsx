@@ -166,7 +166,7 @@ function Home() {
           </div>
         </div>
       )}
-      <iframe id="mapFrame" src={mapURL} title="Mapa com AntPath"></iframe>
+      <iframe id="mapFrame" src={mapURL} title="Mapa com AntPath" allow="geolocation"></iframe>
 
       <div className="buttons-container">
         <div>
