@@ -174,7 +174,6 @@ function Home() {
             <button onClick={() => handleChangeInterestId('prev')}>&lt;</button>
             <button onClick={() => handleChangeInterestId('next')}>&gt;</button>
           </div>
-          <button className="description-button" onClick={handleOpenModal}>Descrição</button>
         </div>
       </div>
     </div>
